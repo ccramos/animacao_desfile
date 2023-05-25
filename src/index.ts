@@ -12,6 +12,9 @@ const app = new Application({
 
 
 const fundo: Sprite = Sprite.from("fundo.jpg");
+let stop = false;
+
+
 
 const waypoints = [
 	{ x:1400-20,	y:900 , a:360-0 },
@@ -54,6 +57,20 @@ fundo.zIndex = 20;
 
 app.stage.addChild(fundo);
 
+fundo.interactive = true;
+fundo.cursor = 'pointer';
+
+// -- 
+fundo.on('pointerdown', ()=>{
+	stop = !stop;
+});
+window.addEventListener("keyup", (code)=> {
+	if (code.code =="Space") {
+		stop = !stop;
+	}  
+}, false);
+
+
 const pelotao1 = criaPelotao(alunos, "boy1.png");
 app.stage.addChild(pelotao1);
 
@@ -87,12 +104,16 @@ let ponto1 = 1;
 
 // Listen for animate update
 app.ticker.add(() => {
+
+	if (stop)
+		return;
+
 	if ( ponto > 0 && moveToPoint( pelotao1, ponto, waypoints) ) {
 		ponto++;
 		if( ponto >= waypoints.length) {
 			ponto = 0;
 		}
-		console.log (ponto, waypoints[ponto].x, waypoints[ponto].y, waypoints[ponto].a )
+		//console.log (ponto, waypoints[ponto].x, waypoints[ponto].y, waypoints[ponto].a )
 	}
 
 	if ( ponto1 > 0 && moveToPoint( pelotao2, ponto1, waypoints2) ) {
@@ -100,7 +121,7 @@ app.ticker.add(() => {
 		if( ponto1 >= waypoints2.length) {
 			ponto1 = 0;
 		}
-		console.log (ponto1, waypoints2[ponto1].x, waypoints2[ponto1].y, waypoints2[ponto1].a )
+		//console.log (ponto1, waypoints2[ponto1].x, waypoints2[ponto1].y, waypoints2[ponto1].a )
 	}
 
 	if (ponto1 == 0 && ponto == 0) {
