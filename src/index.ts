@@ -19,8 +19,8 @@ const waypoints = [
 	{ x:1400-270,	y:210 , a:360-0 },
 	{ x:1400-1125,	y:210 , a:360-90 },
 	{ x:1400-1125,	y:480 , a:360-180 },
-	{ x:1400-685,	y:480 , a:360-270 },
-	{ x:1400-685,	y:480 , a:360-270 },
+	{ x:1400-705,	y:480 , a:360-270 },
+	{ x:1400-705,	y:480 , a:360-270 },
 
 ];
 
@@ -30,8 +30,8 @@ const waypoints2 = [
 	{ x:270,	y:200 , a: 0 },
 	{ x:1125,	y:200 , a: 90 },
 	{ x:1125,	y:490 , a: 180 },
-	{ x:703,	y:490 , a: 270 },
-	{ x:703,	y:490 , a: 270 },
+	{ x:731,	y:490 , a: 270 },
+	{ x:731,	y:490 , a: 270 },
 ];
 
 
@@ -39,7 +39,7 @@ const waypoints2 = [
 const alunos: { nome: string; l: number; c: number; sprite: any}[] = []
 const alunas: { nome: string; l: number; c: number; sprite: any}[] = []
 
-for (let l=1; l<23; l++) {
+for (let l=1; l<19; l++) {
 	for (let c=6; c>0; c--) {
 		alunos.push( {nome: `aluno ${l},${c}`, l:l , c:c, sprite: null})
 		alunas.push( {nome: `aluna ${l},${c}`, l:l , c:c, sprite: null})
@@ -54,10 +54,10 @@ fundo.zIndex = 20;
 
 app.stage.addChild(fundo);
 
-const pelotao1 = criaPelotao(alunos);
+const pelotao1 = criaPelotao(alunos, "boy1.png");
 app.stage.addChild(pelotao1);
 
-const pelotao2 = criaPelotao(alunas);
+const pelotao2 = criaPelotao(alunas, "girl.png");
 app.stage.addChild(pelotao2);
 
 pelotao1.x = waypoints[0].x;
@@ -108,10 +108,12 @@ app.ticker.add(() => {
 		viratodos(alunas, 270)
 		ponto1 = -1
 	}
-
+///////////////////////////////////////////////////////////////
 	if (ponto1 == -1){
-		if ( andaColuna (-340, 230 )) {
+		if ( andaColuna (-340, 230 )) {		
+			ponto1--;
 		}
+		// fazcontorno()
 	}
 
 
@@ -138,13 +140,13 @@ function moveToPoint ( obj : any, toPonto : any , waypoints : any)  {
 	return false
 }
 
-function criaPelotao ( alunos : any) : Container {
+function criaPelotao ( alunos : any, imageName: any) : Container {
 	const contPelotao = new Container();
 	const distancia = 12;
 	const cobertura = 20;
 	
 	for (let ix = 0; ix < alunos.length; ix++){
-		const aluno: Sprite = Sprite.from("boy1.png");
+		const aluno: Sprite = Sprite.from(imageName);
 		alunos[ix].sprite = aluno;
 		alunos[ix].sprite.x = 0 - ((6 - alunos[ix].c) * cobertura) ;
 		alunos[ix].sprite.y = 0 + alunos[ix].l * distancia;
@@ -170,20 +172,27 @@ function andaColuna ( limite1 : number, limite2 : number) {
 
 	for (let ix = 0; ix < alunas.length; ix++){
 		if (alunas[ix].l >= (maxlin -idColuna) || alunas[ix].l <= idColuna ) {
-			if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.y > 1000 ) {
-				alunas[ix].sprite.angle = 180;
-				alunas[ix].sprite.y++;
-			}
-			else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.x < limite1) {
+			if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.y > 613 ) {
 				alunas[ix].sprite.angle = 0;
-				alunas[ix].sprite.y--;
+				alunas[ix].sprite.x++;
+				//console.log("-->",alunas[ix].sprite.y)
+			}
+			else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.y < -392) {
+				alunas[ix].sprite.angle = 0;
+				alunas[ix].sprite.x++;
+
 			} else 	if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.x < limite1 ) {
 				alunas[ix].sprite.angle = 180;
 				alunas[ix].sprite.y++;
+				//console.log("-->",alunas[ix].sprite.y)
 			}
 			else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.x < limite1) {
 				alunas[ix].sprite.angle = 0;
 				alunas[ix].sprite.y--;
+				if (ix == 48) {
+					return true
+				}
+				console.log("-->",ix)
 			} 
 			else
 			{
@@ -192,13 +201,24 @@ function andaColuna ( limite1 : number, limite2 : number) {
 				if (alunas[ix].c ==1 && alunas[ix].l == idColuna  && alunas[ix].sprite.x == limite1 +130 ) {
 					if (idColuna < (maxlin/2)-1) {
 						idColuna ++;
-					}
+					} 
+
 					console.log ("----", idColuna)
 				}
 			}
 		}
 		if (alunos[ix].l >= (maxlin -idColuna) || alunos[ix].l <= idColuna ) {
-			if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x > limite2 ) {
+			if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.y > 620 ) {
+				alunos[ix].sprite.angle = 0;
+				alunos[ix].sprite.x--;
+				//console.log("-->",alunas[ix].sprite.y)
+			}
+			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.y < -385) {
+				alunos[ix].sprite.angle = 0;
+				alunos[ix].sprite.x--;
+
+			}
+			else if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x > limite2 ) {
 				alunos[ix].sprite.angle = 180;
 				alunos[ix].sprite.y++;
 			}
@@ -217,3 +237,13 @@ function andaColuna ( limite1 : number, limite2 : number) {
 
 	return false	
 }
+
+// function fazcontorno() {
+// 	//const maxlin = alunas[alunas.length-1].l +1;
+// 	for (let ix = 0; ix < alunas.length; ix++){
+// 		if (alunas[ix].sprite.x < -300){
+// 		//console.log( '------>', alunas[ix].sprite.x , alunas[ix].sprite.x )
+// 		}
+// 	}
+// }
+
