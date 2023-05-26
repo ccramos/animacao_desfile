@@ -24,7 +24,6 @@ const waypoints = [
 	{ x:1400-1125,	y:480 , a:360-180 },
 	{ x:1400-705,	y:480 , a:360-270 },
 	{ x:1400-705,	y:480 , a:360-270 },
-
 ];
 
 const waypoints2 = [
@@ -36,6 +35,22 @@ const waypoints2 = [
 	{ x:731,	y:490 , a: 270 },
 	{ x:731,	y:490 , a: 270 },
 ];
+
+const waypoints3 = [
+	{ x:710,	y:480 , a:0},
+	{ x:260,	y:480 , a:0},
+	{ x:260,	y:730 , a:270},
+	{ x:1150,	y:730 , a:180},
+	{ x:1150,	y:240 , a:90},
+	{ x:260,	y:240 , a:0},
+	{ x:260,	y:710 , a:270},
+	{ x:-500,	y:1300 , a:315},
+
+	
+];
+
+
+
 
 
 
@@ -60,9 +75,16 @@ app.stage.addChild(fundo);
 fundo.interactive = true;
 fundo.cursor = 'pointer';
 
+fundo.addEventListener('pointermove', (e) => {
+    console.log(e.global);
+});
+
+
 // -- 
-fundo.on('pointerdown', ()=>{
+fundo.on('pointerdown', (e)=>{
 	stop = !stop;
+	app.stage
+	console.log('--->', e.global);
 });
 window.addEventListener("keyup", (code)=> {
 	if (code.code =="Space") {
@@ -70,6 +92,7 @@ window.addEventListener("keyup", (code)=> {
 	}  
 }, false);
 
+const batalhao = new Container();
 
 const pelotao1 = criaPelotao(alunos, "boy1.png");
 app.stage.addChild(pelotao1);
@@ -94,7 +117,7 @@ pelotao2.pivot.set(-60, 22*12/2);
 // boy.x = waypoints[0].x;
 // boy.y = waypoints[0].y;
 
-// const container = new Container();
+
 // container.x = 140;
 // container.y = 800;
 
@@ -108,20 +131,20 @@ app.ticker.add(() => {
 	if (stop)
 		return;
 
-	if ( ponto > 0 && moveToPoint( pelotao1, ponto, waypoints) ) {
+	if ( ponto > 0 && ponto < 15 && moveToPoint( pelotao1, ponto, waypoints) ) {
 		ponto++;
 		if( ponto >= waypoints.length) {
 			ponto = 0;
 		}
-		//console.log (ponto, waypoints[ponto].x, waypoints[ponto].y, waypoints[ponto].a )
+		//// console.log (ponto, waypoints[ponto].x, waypoints[ponto].y, waypoints[ponto].a )
 	}
 
-	if ( ponto1 > 0 && moveToPoint( pelotao2, ponto1, waypoints2) ) {
+	if ( ponto1 > 0 && ponto1 < 15 && moveToPoint( pelotao2, ponto1, waypoints2) ) {
 		ponto1++;
 		if( ponto1 >= waypoints2.length) {
 			ponto1 = 0;
 		}
-		//console.log (ponto1, waypoints2[ponto1].x, waypoints2[ponto1].y, waypoints2[ponto1].a )
+		//// console.log (ponto1, waypoints2[ponto1].x, waypoints2[ponto1].y, waypoints2[ponto1].a )
 	}
 
 	if (ponto1 == 0 && ponto == 0) {
@@ -137,16 +160,56 @@ app.ticker.add(() => {
 		// fazcontorno()
 	}
 
+	if (ponto1 == -2) {
+		//stop = true
+		organizaPelotao(alunos, 180)
+		organizaPelotao(alunas, 0)
+
+		app.stage.addChild(batalhao)
+		batalhao.pivot.x = 710;
+		batalhao.pivot.y = 480;
+
+		app.stage.removeChild(pelotao1)
+		app.stage.removeChild(pelotao2)
+		batalhao.addChild(pelotao1)
+		batalhao.addChild(pelotao2)
+
+		batalhao.x = waypoints3[0].x
+		batalhao.y = waypoints3[0].y
+
+		
+		console.log(batalhao.pivot.x, batalhao.pivot.y)
+		console.log(pelotao1.x, pelotao1.y)
+		console.log(pelotao2.x, pelotao2.y)
+		console.log(batalhao.x, batalhao.y)
+
+		ponto = 20
+		ponto1= 20
+	}
+
+
+	if ( ponto >=20 && moveToPoint( batalhao, ponto-20, waypoints3) ) {
+		// console.log(ponto, '--------------------')
+		ponto++;
+		if( ponto-20 >= waypoints3.length) {
+			ponto = 50;
+		}
+		//// console.log (ponto, waypoints[ponto].x, waypoints[ponto].y, waypoints[ponto].a )
+	}
+
+
+
 
 
 });
 
 function moveToPoint ( obj : any, toPonto : any , waypoints : any)  {
 
+	// console.log(waypoints[toPonto], obj.x, obj.y);
 	obj.angle = waypoints[toPonto].a;
 
 	if (obj.x < waypoints[toPonto].x )
-		obj.x++;;
+		obj.x++;
 	if (obj.x > waypoints[toPonto].x )
 		obj.x--;
 
@@ -178,6 +241,22 @@ function criaPelotao ( alunos : any, imageName: any) : Container {
 	return contPelotao;
 }
 
+function organizaPelotao ( alunos : any, direcao : any) : Container {
+	const contPelotao = new Container();
+	const distancia = 12;
+	const cobertura = 20;
+	
+	for (let ix = 0; ix < alunos.length; ix++){
+		alunos[ix].sprite.x = 0 - ((6 - alunos[ix].c) * cobertura) ;
+		alunos[ix].sprite.y = 0 + alunos[ix].l * distancia;
+		alunos[ix].sprite.anchor.set(0.5,0.5);
+		alunos[ix].sprite.scale.set(0.11 ,0.11);
+		alunos[ix].sprite.angle=direcao; 
+	}
+	return contPelotao;
+}
+
+
 
 function viratodos ( elementos : any , direcao : any ) {
 
@@ -196,7 +275,7 @@ function andaColuna ( limite1 : number, limite2 : number) {
 			if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.y > 613 ) {
 				alunas[ix].sprite.angle = 0;
 				alunas[ix].sprite.x++;
-				//console.log("-->",alunas[ix].sprite.y)
+				//// console.log("-->",alunas[ix].sprite.y)
 			}
 			else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.y < -392) {
 				alunas[ix].sprite.angle = 0;
@@ -205,7 +284,7 @@ function andaColuna ( limite1 : number, limite2 : number) {
 			} else 	if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.x < limite1 ) {
 				alunas[ix].sprite.angle = 180;
 				alunas[ix].sprite.y++;
-				//console.log("-->",alunas[ix].sprite.y)
+				//// console.log("-->",alunas[ix].sprite.y)
 			}
 			else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.x < limite1) {
 				alunas[ix].sprite.angle = 0;
@@ -213,18 +292,18 @@ function andaColuna ( limite1 : number, limite2 : number) {
 				if (ix == 48) {
 					return true
 				}
-				console.log("-->",ix)
+				// console.log("-->",ix)
 			} 
 			else
 			{
 				alunas[ix].sprite.x--;
-				//console.log (alunas[ix].c ,alunas[ix].sprite.x )
+				//// console.log (alunas[ix].c ,alunas[ix].sprite.x )
 				if (alunas[ix].c ==1 && alunas[ix].l == idColuna  && alunas[ix].sprite.x == limite1 +130 ) {
 					if (idColuna < (maxlin/2)-1) {
 						idColuna ++;
 					} 
 
-					console.log ("----", idColuna)
+					// console.log ("----", idColuna)
 				}
 			}
 		}
@@ -232,7 +311,7 @@ function andaColuna ( limite1 : number, limite2 : number) {
 			if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.y > 620 ) {
 				alunos[ix].sprite.angle = 0;
 				alunos[ix].sprite.x--;
-				//console.log("-->",alunas[ix].sprite.y)
+				//// console.log("-->",alunas[ix].sprite.y)
 			}
 			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.y < -385) {
 				alunos[ix].sprite.angle = 0;
@@ -250,7 +329,7 @@ function andaColuna ( limite1 : number, limite2 : number) {
 			else
 			{
 				alunos[ix].sprite.x++;
-				//console.log(alunos[ix].sprite.x)
+				//// console.log(alunos[ix].sprite.x)
 			}
 		}
 
@@ -263,7 +342,7 @@ function andaColuna ( limite1 : number, limite2 : number) {
 // 	//const maxlin = alunas[alunas.length-1].l +1;
 // 	for (let ix = 0; ix < alunas.length; ix++){
 // 		if (alunas[ix].sprite.x < -300){
-// 		//console.log( '------>', alunas[ix].sprite.x , alunas[ix].sprite.x )
+// 		//// console.log( '------>', alunas[ix].sprite.x , alunas[ix].sprite.x )
 // 		}
 // 	}
 // }
