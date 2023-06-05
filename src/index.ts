@@ -19,21 +19,21 @@ let stop = true;
 
 
 const waypoints = [
-	{ x:1400-20,	y:900 , a:360-0 },
-	{ x:1400-270,	y:650 , a:360-45 },
-	{ x:1400-270,	y:210 , a:360-0 },
-	{ x:1400-1125,	y:210 , a:360-90 },
-	{ x:1400-1125,	y:480 , a:360-180 },
+	// { x:1400-20,	y:900 , a:360-0 },
+	// { x:1400-270,	y:650 , a:360-45 },
+	// { x:1400-270,	y:210 , a:360-0 },
+	// { x:1400-1125,	y:210 , a:360-90 },
+	// { x:1400-1125,	y:480 , a:360-180 },
 	{ x:1400-683,	y:480 , a:360-270 },
 	{ x:1400-683,	y:480 , a:360-270 },
 ];
 
 const waypoints2 = [
-	{ x:20,		y:900 , a: 0 },
-	{ x:270,	y:650 , a: 45 },
-	{ x:270,	y:200 , a: 0 },
-	{ x:1125,	y:200 , a: 90 },
-	{ x:1125,	y:490 , a: 180 },
+	// { x:20,		y:900 , a: 0 },
+	// { x:270,	y:650 , a: 45 },
+	// { x:270,	y:200 , a: 0 },
+	// { x:1125,	y:200 , a: 90 },
+	// { x:1125,	y:490 , a: 180 },
 	{ x:705,	y:490 , a: 270 },
 	{ x:705,	y:490 , a: 270 },
 ];
@@ -357,7 +357,17 @@ function andaColuna ( limite1 : number, limite2 : number) {
 	for (let ix = 0; ix < alunos.length; ix++){
 		try{
 			if (alunas[ix].l >= (maxlin -idColuna) || alunas[ix].l <= idColuna ) {
-				if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.y > 640 ) {
+				if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.x > 240 ) {
+					alunas[ix].sprite.angle = 90;
+					alunas[ix].sprite.y--;
+					//console.log("-->",alunas[ix].sprite.x)
+				}
+				else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.x > 240) {
+					alunas[ix].sprite.angle = 90;
+					alunas[ix].sprite.y++;
+
+				}
+				else if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.y > 640 ) {
 					alunas[ix].sprite.angle = 90;
 					alunas[ix].sprite.x++;
 					//// // console.log("-->",alunas[ix].sprite.y)
@@ -394,15 +404,24 @@ function andaColuna ( limite1 : number, limite2 : number) {
 		} catch(e) {
 		}
 		if (alunos[ix].l >= (maxlin -idColuna) || alunos[ix].l <= idColuna ) {
-			if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.y > 639  ) {
+			if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x < -350  ) {
+				alunos[ix].sprite.angle = 270;
+				alunos[ix].sprite.y--;
+				//// // console.log("-->",alunas[ix].sprite.y)
+			}
+			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.x < -350 ) {
+				alunos[ix].sprite.angle = 270;
+				alunos[ix].sprite.y++;
+
+			} else if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.y > 639  ) {
 				alunos[ix].sprite.angle = 270;
 				alunos[ix].sprite.x--;
-				//// // console.log("-->",alunas[ix].sprite.y)
 			}
 			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.y < -364 ) {
 				alunos[ix].sprite.angle = 270;
 				alunos[ix].sprite.x--;
-
+				// if (ix == 5)
+				// 	console.log("-->",alunos[ix].sprite.x)
 			}
 			else if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x > limite2 ) {
 				alunos[ix].sprite.angle = 180;
