@@ -14,6 +14,12 @@ const app = new Application({
 
 const fundo: Sprite = Sprite.from("fundo.jpg");
 const rectangle = Sprite.from(Texture.WHITE);
+
+const retBanda = Sprite.from(Texture.WHITE);
+const recGuarda = Sprite.from(Texture.WHITE);
+const recCerimonial = Sprite.from(Texture.WHITE);
+
+const bandeira = Sprite.from('bandeira.png');
 let stop = true;
 
 
@@ -43,10 +49,8 @@ const waypoints3 = [
 	{ x:260,	y:480 , a:0},
 	{ x:260,	y:730 , a:270},
 	{ x:1150,	y:730 , a:180},
-	{ x:1150,	y:240 , a:90},
-	{ x:260,	y:240 , a:0},
-	{ x:260,	y:710 , a:270},
-	{ x:-500,	y:1300 , a:315},
+	{ x:1150,	y:480 , a:90},
+	{ x:710,	y:480 , a:0},
 
 	
 ];
@@ -112,13 +116,69 @@ function InitObjetos() {
 
 	app.stage.addChild(fundo);
 
+	bandeira.width=210;
+	bandeira.height=120;
+	bandeira.x=605;
+	bandeira.y=2;
 	
+	app.stage.addChild(bandeira);
+
 	rectangle.width = 200;
 	rectangle.height = 22;
 	rectangle.x = 180
 	rectangle.y = -100
 	rectangle.tint = 0xAAAAAA;
-	fundo.addChild(rectangle);
+	app.stage.addChild(rectangle);
+
+
+	retBanda.width = 130
+	retBanda.height = 70
+	retBanda.x = 490
+	retBanda.y = 300
+	var txtBanda = new Text("BANDA", {
+		fontFamily: 'Arial Black',
+		fontSize: 22,
+		fill: 0x333333,
+		align: 'left',
+	});
+	txtBanda.x = 512
+	txtBanda.y = 323
+
+	recGuarda.width = 80
+	recGuarda.height = 40
+	recGuarda.x = 668
+	recGuarda.y = 320
+
+	var txtGuarda = new Text("GUARDA", {
+		fontFamily: 'Arial Black',
+		fontSize: 16,
+		fill: 0x333333,
+		align: 'left',
+	});
+	txtGuarda.x = 670
+	txtGuarda.y = 330
+
+	recCerimonial.width = 50
+	recCerimonial.height = 40
+	recCerimonial.x = 790
+	recCerimonial.y = 320
+	var txtCerimonial = new Text("PÚLP.", {
+		fontFamily: 'Arial Black',
+		fontSize: 15,
+		fill: 0x333333,
+		align: 'left',
+	});
+	txtCerimonial.x = 792
+	txtCerimonial.y = 330
+
+	
+	app.stage.addChild(retBanda);
+	app.stage.addChild(recGuarda);
+	app.stage.addChild(recCerimonial);
+	app.stage.addChild(txtBanda);
+	app.stage.addChild(txtGuarda);
+	app.stage.addChild(txtCerimonial);
+
 
 
 	fundo.interactive = true;
@@ -200,8 +260,17 @@ app.ticker.add(() => {
 	if (ponto1 == 0 && ponto == 0) {
 		viratodos(alunos, 90)
 		viratodos(alunas, 270)
-		ponto1 = -1
+		ponto1 = -6
 	}
+
+
+	if (ponto1 == -6) {
+		ponto1=-7
+		setTimeout(() => {
+			ponto1=-1
+		}, 4000);
+	}
+
 ///////////////////////////////////////////////////////////////
 	if (ponto1 == -1){
 		if ( andaColuna (-340, 230 )) {		
@@ -211,7 +280,7 @@ app.ticker.add(() => {
 	}
 
 	if (ponto1 == -2) {
-		ponto=-3
+		ponto1=-3
 		setTimeout(() => {
 			ponto1=-4
 		}, 4000);
@@ -297,22 +366,22 @@ function criaPelotao ( alunos : any, imageName: any) : Container {
 		alunos[ix].sprite.addEventListener('mouseover', () => {
 			var message = new Text(alunos[ix].nome, {
 				fontFamily: 'Arial',
-				fontSize: 8,
+				fontSize: 16,
 				fill: 0x333333,
 				align: 'left',
 			});
 			message.x = 182;
-			message.y = 105;
+			message.y = 85;
 			alunos[ix].sprite.message = message;
-			fundo.addChild(message);
+			app.stage.addChild(message);
 			rectangle.width = message.width +5
 			console.log(ix, alunos[ix])
-			rectangle.y = 100
+			rectangle.y = 83
 		})
 		
 		// make circle half-transparent when mouse leaves
 		alunos[ix].sprite.addEventListener('mouseout', () => {
-			fundo.removeChild(alunos[ix].sprite.message);
+			app.stage.removeChild(alunos[ix].sprite.message);
 		  	delete alunos[ix].sprite.message;
 			rectangle.y = -100
 		})
