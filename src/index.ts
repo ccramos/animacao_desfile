@@ -21,49 +21,23 @@ const recCerimonial = Sprite.from(Texture.WHITE);
 
 const bandeira = Sprite.from('bandeira.png');
 let stop = true;
+let speed = 1;
+
+const campo = {
+	x: 200,
+	y: 180,
+	width: 1020,
+	height: 600
+}
+console.log(campo)
 
 
-
-const waypoints = [
-	{ x:1400-20,	y:900 , a:360-0 },
-	{ x:1400-270,	y:650 , a:360-45 },
-	{ x:1400-270,	y:210 , a:360-0 },
-	{ x:1400-1125,	y:210 , a:360-90 },
-	{ x:1400-1125,	y:480 , a:360-180 },
-	{ x:1400-683,	y:480 , a:360-270 },
-	{ x:1400-683,	y:480 , a:360-270 },
-];
-
-const waypoints2 = [
-	{ x:20,		y:900 , a: 0 },
-	{ x:270,	y:650 , a: 45 },
-	{ x:270,	y:200 , a: 0 },
-	{ x:1125,	y:200 , a: 90 },
-	{ x:1125,	y:490 , a: 180 },
-	{ x:705,	y:490 , a: 270 },
-	{ x:705,	y:490 , a: 270 },
-];
-
-const waypoints3 = [
-	{ x:710,	y:480 , a:0},
-	{ x:260,	y:480 , a:0},
-	{ x:260,	y:730 , a:270},
-	{ x:1150,	y:730 , a:180},
-	{ x:1150,	y:480 , a:90},
-	{ x:710,	y:480 , a:0},
-
-	
-];
-
-
-
-
-
+let waypoints:any = [];
+let waypoints2:any = [];
+let waypoints3:any = [];
 
 let alunos: { nome: string; l: number; c: number; sprite: any, turma:string, num: number, sex: string}[] = []
 let alunas: { nome: string; l: number; c: number; sprite: any, turma:string, num: number, sex: string}[] = []
-
-
 
 
 // for (let l=1; l<19; l++) {
@@ -97,6 +71,10 @@ fetch('meninas.json').then((body)=>{return body.text()}).then((data) => {
 	})
 
 
+
+
+
+
 setTimeout(InitObjetos, 1000 );
 
 
@@ -108,6 +86,41 @@ function InitObjetos() {
 	}
 	stop =false
 
+	
+	const pelotaoHeight = alunos[alunos.length-1].l * 12;
+	const pelotaoWidth = alunos[alunos.length-1].c * 20;
+	console.log (pelotaoHeight, pelotaoWidth, alunos);
+
+	waypoints = [
+		{ x:1400-20,	y:900 , a:360-0 },
+		{ x:campo.x + campo.width - (pelotaoWidth / 2),	y:680 , a:360-45 },
+		{ x:campo.x + campo.width - (pelotaoWidth / 2),	y:campo.y + (pelotaoWidth / 2), a:360-0 },
+		{ x:campo.x + (pelotaoWidth / 2),	y:campo.y + (pelotaoWidth / 2) , a:360-90 },
+		{ x:campo.x + (pelotaoWidth / 2),	y: campo.y +(campo.height/2) , a:360-180 },
+		{ x:campo.x + (campo.width / 2) +6 ,y: campo.y +(campo.height/2)  , a:360-270 },
+		{ x:campo.x + (campo.width / 2) +6 ,y: campo.y +(campo.height/2)  , a:360-270 },
+	];
+	
+	waypoints2 = [
+		{ x:20,		y:900 , a: 0 }, 
+		{ x:campo.x + (pelotaoWidth / 2)- 20,	y:680 , a: 45 },
+		{ x:campo.x + (pelotaoWidth / 2)- 20,	y:campo.y + (pelotaoWidth / 2) -10 , a: 0 },
+		{ x:campo.x + campo.width - (pelotaoWidth / 2) + 10,	y:campo.y + (pelotaoWidth / 2) - 10 , a: 90 },
+		{ x:campo.x + campo.width - (pelotaoWidth / 2) + 10,	y:campo.y +(campo.height/2)+10 , a: 180 },
+		{ x:campo.x + (campo.width / 2) - 6 ,	y:campo.y +(campo.height/2)+10 , a: 270 },
+		{ x:campo.x + (campo.width / 2) - 6  ,	y:campo.y +(campo.height/2)+10 , a: 270 },
+	];
+	
+	waypoints3 = [
+		{ x:campo.x + (campo.width / 2) +6 ,y: campo.y +(campo.height/2) , a:0},
+		{ x:campo.x + (pelotaoWidth / 2) +6 ,y: campo.y +(campo.height/2) , a:0},
+		{ x:campo.x + (pelotaoWidth / 2) +6 ,y: campo.y + campo.height - (pelotaoWidth / 2) , a:270},
+		{ x:campo.x + campo.width - (pelotaoWidth / 2) , y: campo.y + campo.height - (pelotaoWidth / 2) , a:180},
+		{ x:campo.x + campo.width - (pelotaoWidth / 2) , y:campo.y + (pelotaoWidth / 2) , a:90},
+		{ x:campo.x + (pelotaoWidth / 2) , y:campo.y + (pelotaoWidth / 2) , a:0},
+		{ x:campo.x + (pelotaoWidth / 2) , y:campo.y + (campo.height/2) , a:270},
+		{ x:campo.x + (campo.width / 2)-6 , y:campo.y + (campo.height/2) , a:180},
+	];
 		
 	// fun estádio
 	fundo.width = app.screen.width;
@@ -131,23 +144,23 @@ function InitObjetos() {
 	app.stage.addChild(rectangle);
 
 
-	retBanda.width = 130
-	retBanda.height = 70
+	retBanda.width = 150
+	retBanda.height = 40
 	retBanda.x = 490
-	retBanda.y = 300
+	retBanda.y = campo.y -  retBanda.height -10;
 	var txtBanda = new Text("BANDA", {
 		fontFamily: 'Arial Black',
 		fontSize: 22,
 		fill: 0x333333,
 		align: 'left',
 	});
-	txtBanda.x = 512
-	txtBanda.y = 323
+	txtBanda.x = 512 + 5 + 5
+	txtBanda.y = campo.y -  retBanda.height -10 + 5 + 2;
 
 	recGuarda.width = 80
 	recGuarda.height = 40
 	recGuarda.x = 668
-	recGuarda.y = 320
+	recGuarda.y = campo.y -  recGuarda.height -10;
 
 	var txtGuarda = new Text("GUARDA", {
 		fontFamily: 'Arial Black',
@@ -156,12 +169,12 @@ function InitObjetos() {
 		align: 'left',
 	});
 	txtGuarda.x = 670
-	txtGuarda.y = 330
+	txtGuarda.y = campo.y -  recGuarda.height -10 + 10;
 
 	recCerimonial.width = 50
 	recCerimonial.height = 40
 	recCerimonial.x = 790
-	recCerimonial.y = 320
+	recCerimonial.y = campo.y -  recCerimonial.height -10
 	var txtCerimonial = new Text("PÚLP.", {
 		fontFamily: 'Arial Black',
 		fontSize: 15,
@@ -169,7 +182,7 @@ function InitObjetos() {
 		align: 'left',
 	});
 	txtCerimonial.x = 792
-	txtCerimonial.y = 330
+	txtCerimonial.y = campo.y -  recCerimonial.height -10 + 10;
 
 	
 	app.stage.addChild(retBanda);
@@ -188,6 +201,16 @@ function InitObjetos() {
 	// 	// console.log(e.global);
 	// });
 
+	retBanda.interactive = true;
+	retBanda.on('pointerdown', ()=>{
+		speed-=0.5;
+	});
+
+	recGuarda.interactive = true;
+	recGuarda.on('pointerdown', ()=>{
+		//if (speed > 0.5)
+			speed+=0.5;
+	});
 
 	// -- 
 	fundo.on('pointerdown', (e)=>{
@@ -205,6 +228,7 @@ function InitObjetos() {
 
 	pelotao1 = criaPelotao(alunos, "boy1.png");
 	app.stage.addChild(pelotao1);
+
 
 	pelotao2 = criaPelotao(alunas, "girl.png");
 	app.stage.addChild(pelotao2);
@@ -334,15 +358,30 @@ function moveToPoint ( obj : any, toPonto : any , waypoints : any)  {
 	obj.angle = waypoints[toPonto].a;
 
 	if (obj.x < waypoints[toPonto].x )
-		obj.x++;
-	if (obj.x > waypoints[toPonto].x )
-		obj.x--;
+	{
+		obj.x+=speed;
+		if (obj.x > waypoints[toPonto].x)
+			obj.x = waypoints[toPonto].x;
+	}
 
-	if (obj.y < waypoints[toPonto].y )
-		obj.y++;
-	if (obj.y > waypoints[toPonto].y )
-		obj.y--;
-	
+	if (obj.x > waypoints[toPonto].x ){
+		obj.x-=speed;
+		if (obj.x < waypoints[toPonto].x)
+			obj.x = waypoints[toPonto].x;
+	}
+
+	if (obj.y < waypoints[toPonto].y ){
+		obj.y+=speed;
+		if (obj.y > waypoints[toPonto].y )
+			obj.y = waypoints[toPonto].y;
+	}
+
+	if (obj.y > waypoints[toPonto].y ){
+		obj.y-=speed;
+		if (obj.y < waypoints[toPonto].y )
+			obj.y = waypoints[toPonto].y;
+	}
+
 	if (obj.x == waypoints[toPonto].x && obj.y == waypoints[toPonto].y)
 		return true
 	
@@ -428,40 +467,40 @@ function andaColuna ( limite1 : number, limite2 : number) {
 			if (alunas[ix].l >= (maxlin -idColuna) || alunas[ix].l <= idColuna ) {
 				if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.x > 240 ) {
 					alunas[ix].sprite.angle = 90;
-					alunas[ix].sprite.y--;
+					alunas[ix].sprite.y-=speed;
 					//console.log("-->",alunas[ix].sprite.x)
 				}
 				else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.x > 240) {
 					alunas[ix].sprite.angle = 90;
-					alunas[ix].sprite.y++;
+					alunas[ix].sprite.y+=speed;
 
 				}
 				else if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.y > 640 ) {
 					alunas[ix].sprite.angle = 90;
-					alunas[ix].sprite.x++;
+					alunas[ix].sprite.x+=speed;
 					//// // console.log("-->",alunas[ix].sprite.y)
 				}
 				else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.y < -363) {
 					alunas[ix].sprite.angle = 90;
-					alunas[ix].sprite.x++;
+					alunas[ix].sprite.x+=speed;
 
 				} else 	if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.x < limite1 ) {
 					alunas[ix].sprite.angle = 180;
-					alunas[ix].sprite.y++;
+					alunas[ix].sprite.y+=speed;
 					//// // console.log("-->",alunas[ix].sprite.y)
 				}
 				else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.x < limite1) {
 					alunas[ix].sprite.angle = 0;
-					alunas[ix].sprite.y--;
+					alunas[ix].sprite.y-=speed;
 					if (ix == 60) {
 						return true
 					}
 				} 
 				else
 				{
-					alunas[ix].sprite.x--;
+					alunas[ix].sprite.x-=speed;
 					//// // console.log (alunas[ix].c ,alunas[ix].sprite.x )
-					if (alunas[ix].c ==1 && alunas[ix].l == idColuna  && alunas[ix].sprite.x == limite1 +130 ) {
+					if (alunas[ix].c ==1 && alunas[ix].l == idColuna  && alunas[ix].sprite.x <= limite1 +130 ) {
 						if (idColuna < (maxlin/2)-1) {
 							idColuna ++;
 						} 
@@ -475,34 +514,34 @@ function andaColuna ( limite1 : number, limite2 : number) {
 		if (alunos[ix].l >= (maxlin -idColuna) || alunos[ix].l <= idColuna ) {
 			if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x < -350  ) {
 				alunos[ix].sprite.angle = 270;
-				alunos[ix].sprite.y--;
+				alunos[ix].sprite.y-=speed;
 				//// // console.log("-->",alunas[ix].sprite.y)
 			}
 			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.x < -350 ) {
 				alunos[ix].sprite.angle = 270;
-				alunos[ix].sprite.y++;
+				alunos[ix].sprite.y+=speed;
 
 			} else if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.y > 639  ) {
 				alunos[ix].sprite.angle = 270;
-				alunos[ix].sprite.x--;
+				alunos[ix].sprite.x-=speed;
 			}
 			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.y < -364 ) {
 				alunos[ix].sprite.angle = 270;
-				alunos[ix].sprite.x--;
+				alunos[ix].sprite.x-=speed;
 				// if (ix == 5)
 				// 	console.log("-->",alunos[ix].sprite.x)
 			}
 			else if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x > limite2 ) {
 				alunos[ix].sprite.angle = 180;
-				alunos[ix].sprite.y++;
+				alunos[ix].sprite.y+=speed;
 			}
 			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.x > limite2 ) {
 				alunos[ix].sprite.angle = 0;
-				alunos[ix].sprite.y--;
+				alunos[ix].sprite.y-=speed;
 			} 
 			else
 			{
-				alunos[ix].sprite.x++;
+				alunos[ix].sprite.x+=speed;
 				//// // console.log(alunos[ix].sprite.x)
 			}
 		}
