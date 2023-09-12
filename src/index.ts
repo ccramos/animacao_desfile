@@ -235,11 +235,11 @@ function InitObjetos() {
 
 	pelotao1.x = waypoints[0].x;
 	pelotao1.y = waypoints[0].y;
-	pelotao1.pivot.set(-60, 22*12/2);
+	pelotao1.pivot.set(-60, alunos[alunos.length-1].l*12/2);
 
 	pelotao2.x = waypoints2[0].x;
 	pelotao2.y = waypoints2[0].y;
-	pelotao2.pivot.set(-60, 22*12/2);
+	pelotao2.pivot.set(-60, alunos[alunos.length-1].l*12/2);
 
 	// const boy: Sprite = Sprite.from("boy1.png");
 	// app.stage.addChild(boy);
