@@ -1,7 +1,7 @@
 from operator import attrgetter
 import math as math
 import pandas as pd
-import names
+#import names
 from functions_and_classes import *
 from random import randint
 
@@ -9,6 +9,7 @@ from random import randint
 banco_alunos = pd.read_csv('python/alunos3rao.CSV')
 
 print(banco_alunos.info() )
+
 
 alunosH = banco_alunos[banco_alunos["H x M"] == "H"]
 alunosM = banco_alunos[banco_alunos["H x M"] == "M"]
