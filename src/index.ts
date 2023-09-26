@@ -461,8 +461,8 @@ function viratodos ( elementos : any , direcao : any ) {
 let idColuna =1;
 function andaColuna ( limite1 : number, limite2 : number) {
 	
-	const maxlin = alunas[alunas.length-1].l +1;
-	for (let ix = 0; ix < alunos.length; ix++){
+	const maxlin = alunos[alunos.length-1].l +1;
+	for (let ix = 0; ix < alunas.length; ix++){
 		try{
 			if (alunas[ix].l >= (maxlin -idColuna) || alunas[ix].l <= idColuna ) {
 				if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.x > 240 ) {
@@ -475,12 +475,12 @@ function andaColuna ( limite1 : number, limite2 : number) {
 					alunas[ix].sprite.y+=speed;
 
 				}
-				else if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.y > 640 ) {
+				else if ( alunas[ix].l >= (maxlin -idColuna) && alunas[ix].sprite.y > 624 ) {
 					alunas[ix].sprite.angle = 90;
 					alunas[ix].sprite.x+=speed;
 					//// // console.log("-->",alunas[ix].sprite.y)
 				}
-				else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.y < -363) {
+				else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.y < -395) {
 					alunas[ix].sprite.angle = 90;
 					alunas[ix].sprite.x+=speed;
 
@@ -492,7 +492,8 @@ function andaColuna ( limite1 : number, limite2 : number) {
 				else if ( alunas[ix].l <= idColuna && alunas[ix].sprite.x < limite1) {
 					alunas[ix].sprite.angle = 0;
 					alunas[ix].sprite.y-=speed;
-					if (ix == 60) {
+					console.log(ix)
+					if (ix == 48) {
 						return true
 					}
 				} 
@@ -501,51 +502,57 @@ function andaColuna ( limite1 : number, limite2 : number) {
 					alunas[ix].sprite.x-=speed;
 					//// // console.log (alunas[ix].c ,alunas[ix].sprite.x )
 					if (alunas[ix].c ==1 && alunas[ix].l == idColuna  && alunas[ix].sprite.x <= limite1 +130 ) {
+						// console.log(idColuna)
+						// console.log((maxlin/2)-1)
 						if (idColuna < (maxlin/2)-1) {
 							idColuna ++;
+
 						} 
 
 						// // console.log ("----", idColuna)
 					}
 				}
 			}
-		} catch(e) {
 		}
-		if (alunos[ix].l >= (maxlin -idColuna) || alunos[ix].l <= idColuna ) {
-			if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x < -350  ) {
-				alunos[ix].sprite.angle = 270;
-				alunos[ix].sprite.y-=speed;
-				//// // console.log("-->",alunas[ix].sprite.y)
-			}
-			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.x < -350 ) {
-				alunos[ix].sprite.angle = 270;
-				alunos[ix].sprite.y+=speed;
-
-			} else if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.y > 639  ) {
-				alunos[ix].sprite.angle = 270;
-				alunos[ix].sprite.x-=speed;
-			}
-			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.y < -364 ) {
-				alunos[ix].sprite.angle = 270;
-				alunos[ix].sprite.x-=speed;
-				// if (ix == 5)
-				// 	console.log("-->",alunos[ix].sprite.x)
-			}
-			else if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x > limite2 ) {
-				alunos[ix].sprite.angle = 180;
-				alunos[ix].sprite.y+=speed;
-			}
-			else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.x > limite2 ) {
-				alunos[ix].sprite.angle = 0;
-				alunos[ix].sprite.y-=speed;
-			} 
-			else
-			{
-				alunos[ix].sprite.x+=speed;
-				//// // console.log(alunos[ix].sprite.x)
-			}
+		 catch(e) {
 		}
+		try {
+				
+			if (alunos[ix].l >= (maxlin -idColuna) || alunos[ix].l <= idColuna ) {
+				if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x < -350  ) {
+					alunos[ix].sprite.angle = 270;
+					alunos[ix].sprite.y-=speed;
+					//// // console.log("-->",alunas[ix].sprite.y)
+				}
+				else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.x < -350 ) {
+					alunos[ix].sprite.angle = 270;
+					alunos[ix].sprite.y+=speed;
 
+				} else if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.y > 624  ) {
+					alunos[ix].sprite.angle = 270;
+					alunos[ix].sprite.x-=speed;
+				}
+				else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.y < -396 ) {
+					alunos[ix].sprite.angle = 270;
+					alunos[ix].sprite.x-=speed;
+					// if (ix == 5)
+					// 	console.log("-->",alunos[ix].sprite.x)
+				}
+				else if ( alunos[ix].l >= (maxlin -idColuna) && alunos[ix].sprite.x > limite2 ) {
+					alunos[ix].sprite.angle = 180;
+					alunos[ix].sprite.y+=speed;
+				}
+				else if ( alunos[ix].l <= idColuna && alunos[ix].sprite.x > limite2 ) {
+					alunos[ix].sprite.angle = 0;
+					alunos[ix].sprite.y-=speed;
+				} 
+				else
+				{
+					alunos[ix].sprite.x+=speed;
+					//// // console.log(alunos[ix].sprite.x)
+				}
+			}
+		} catch (e){}
 	}
 
 	return false	
