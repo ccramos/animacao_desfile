@@ -76,3 +76,4 @@ print(saveMeninos.info())
 print(saveMeninos.tail(20))
 saveMeninos.to_json(r'static/meninos.json', orient='records')
 saveMeninos.to_csv(r'static/meninos3rao.csv', index = False)
+
