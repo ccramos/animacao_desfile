@@ -35,19 +35,30 @@ for index, row in alunosH.iterrows():
 
 # print(len(lstAlunas))
 
-qtlinha = math.ceil(len(lstAlunos) /6 )
-if qtlinha % 2 != 0: 
-    qtlinha+=1 
-
-formacaoMeninos = Formacao(lstAlunos,6,qtlinha)
-formacaoMeninos.get_posicao_alunos()
-for a in formacaoMeninos.elem :
-    a.col = 7 - a.col
+if len(lstAlunos)>len(lstAlunos):
+    qtlinha = math.ceil(len(lstAlunos) /6 )
+    if qtlinha % 2 != 0: 
+        qtlinha+=1 
+    formacaoMeninos = Formacao(lstAlunos,6,qtlinha)
+    formacaoMeninos.get_posicao_alunos()
+    for a in formacaoMeninos.elem :
+        a.col = 7 - a.col
+    formacaoMeninas = Formacao(lstAlunas,6, formacaoMeninos.nlin)
+    formacaoMeninas.get_posicao_alunos()
+else:
+    qtlinha = math.ceil(len(lstAlunas) /6 )
+    if qtlinha % 2 != 0: 
+        qtlinha+=1 
+    formacaoMeninas = Formacao(lstAlunas,6,qtlinha)
+    formacaoMeninas.get_posicao_alunos()
+    for a in formacaoMeninas.elem :
+        a.col = 7 - a.col
+    formacaoMeninos = Formacao(lstAlunos,6, formacaoMeninas.nlin)
+    formacaoMeninos.get_posicao_alunos()
 
 # formacaoMeninos.print_posicao_alunos()
 
-formacaoMeninas = Formacao(lstAlunas,6, formacaoMeninos.nlin)
-formacaoMeninas.get_posicao_alunos()
+
 # formacaoMeninas.print_posicao_alunos()
 
 
