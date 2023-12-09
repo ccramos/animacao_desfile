@@ -51,10 +51,10 @@ else:
         qtlinha+=1 
     formacaoMeninas = Formacao(lstAlunas,6,qtlinha)
     formacaoMeninas.get_posicao_alunos()
-    for a in formacaoMeninas.elem :
-        a.col = 7 - a.col
     formacaoMeninos = Formacao(lstAlunos,6, formacaoMeninas.nlin)
     formacaoMeninos.get_posicao_alunos()
+    for a in formacaoMeninos.elem :
+        a.col = 7 - a.col
 
 # formacaoMeninos.print_posicao_alunos()
 
@@ -73,7 +73,7 @@ saveMeninas.to_json(r'static/meninas.json', orient='records')
 saveMeninas.to_csv(r'static/meninas3rao.csv',index = False)
 
 print(saveMeninas.info())
-print(saveMeninas.tail(20))
+print(saveMeninas.tail(20));
 
 arr1 = []
 
