@@ -70,7 +70,9 @@ for a in formacaoMeninas.elem :
 
 saveMeninas = pd.DataFrame(arr, columns=colunas)
 saveMeninas.to_json(r'static/meninas.json', orient='records')
+saveMeninas.to_json(r'dist/meninas.json', orient='records')
 saveMeninas.to_csv(r'static/meninas3rao.csv',index = False)
+saveMeninas.to_csv(r'dist/meninas3rao.csv',index = False)
 
 print(saveMeninas.info())
 print(saveMeninas.tail(20));
@@ -86,5 +88,7 @@ saveMeninos = pd.DataFrame(arr1, columns=colunas)
 print(saveMeninos.info())
 print(saveMeninos.tail(20))
 saveMeninos.to_json(r'static/meninos.json', orient='records')
+saveMeninos.to_json(r'dist/meninos.json', orient='records')
 saveMeninos.to_csv(r'static/meninos3rao.csv', index = False)
+saveMeninos.to_csv(r'dist/meninos3rao.csv', index = False)
 
